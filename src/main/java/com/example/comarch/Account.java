@@ -2,12 +2,14 @@ package com.example.comarch;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "account")
+@NoArgsConstructor
 public class Account {
 
     @Id
