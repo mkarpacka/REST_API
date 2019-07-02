@@ -1,4 +1,4 @@
-package com.example.comarch;
+package com.example.comarch.entities;
 
 
 import lombok.Data;
