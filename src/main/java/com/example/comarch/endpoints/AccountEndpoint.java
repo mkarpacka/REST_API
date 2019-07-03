@@ -42,7 +42,7 @@ public class AccountEndpoint {
     }
 
     @PutMapping("accounts/update/{number}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Long number, @RequestBody Account account) {
+    public ResponseEntity<Account> updateAccount(@PathVariable Long number, @RequestBody Account account) throws AccountDoesNotExistException {
 
         accountService.updateAccount(number, account);
 
