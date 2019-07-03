@@ -55,7 +55,14 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public List<Transfer> getAccountTransfers(Long number) {
         Account account = accountRepository.findByNumber(number);
-        return transferRepository.findByFirstAccountNumber(account.getNumber());
+        List<Transfer> allAccountTransfers = new ArrayList<>();
+        List<Transfer> transfersFrom = transferRepository.findByFirstAccountNumber(account.getNumber());
+        List<Transfer> transfersTo = transferRepository.findBySecondAccountNumber(account.getNumber());
+
+        allAccountTransfers.addAll(transfersFrom);
+        allAccountTransfers.addAll(transfersTo);
+
+        return allAccountTransfers;
     }
 
     @Override

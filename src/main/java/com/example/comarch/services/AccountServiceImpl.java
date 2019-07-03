@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,9 +42,10 @@ public class AccountServiceImpl implements AccountService {
     public Account updateAccount(Long number, Account account) {
         Account updatedAccount = accountRepository.findByNumber(number);
 
-        updatedAccount.setCurrency(account.getCurrency());
-        updatedAccount.setMoney(account.getMoney());
-        updatedAccount.setOwner(account.getOwner());
+        if(account.getCurrency()!=null) updatedAccount.setCurrency(account.getCurrency());
+        if(account.getMoney()!=null) updatedAccount.setMoney(account.getMoney());
+        if(account.getOwner()!=null) updatedAccount.setOwner(account.getOwner());
+
 //        updatedAccount.setNumber(account.getNumber());
         accountRepository.save(updatedAccount);
         return updatedAccount;

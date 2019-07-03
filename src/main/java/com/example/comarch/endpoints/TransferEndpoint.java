@@ -2,6 +2,7 @@ package com.example.comarch.endpoints;
 
 
 import com.example.comarch.entities.Account;
+import com.example.comarch.entities.Transfer;
 import com.example.comarch.services.AccountService;
 import com.example.comarch.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,15 @@ public class TransferEndpoint {
         List<Account> updatedAccounts = transferService.makeTransfer(firstAccount, secondAccount, money);
 
         return new ResponseEntity<>(updatedAccounts, HttpStatus.OK);
+    }
+
+    @GetMapping("accounts/transfers")
+    public List<Transfer> getAllTransfers() {
+        return transferService.getAllTransfers();
+    }
+
+    @GetMapping("accounts/transfers/{number}")
+    public ResponseEntity<?> getAccountTransfers(@PathVariable Long number){
+        return new ResponseEntity<>(transferService.getAccountTransfers(number), HttpStatus.OK);
     }
 }
