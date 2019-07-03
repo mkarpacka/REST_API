@@ -4,15 +4,9 @@ import com.example.comarch.entities.Account;
 import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -43,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     public Account updateAccount(Long number, Account account) throws AccountDoesNotExistException {
         Account updatedAccount = accountRepository.findByNumber(number);
 
-        if(account== null) throw new AccountDoesNotExistException("not exist");
+        if(updatedAccount == null) throw new AccountDoesNotExistException("not exist");
 
         if(account.getCurrency()!=null) updatedAccount.setCurrency(account.getCurrency());
         if(account.getMoney()!=null) updatedAccount.setMoney(account.getMoney());

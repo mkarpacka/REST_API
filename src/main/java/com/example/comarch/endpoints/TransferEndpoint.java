@@ -3,6 +3,7 @@ package com.example.comarch.endpoints;
 
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
+import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.services.AccountService;
 import com.example.comarch.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class TransferEndpoint {
 
 
     @PutMapping("accounts/transfer/{number1}/{number2}/{money}")
-    public ResponseEntity<?> makeTransfer(@PathVariable Long number1, @PathVariable Long number2, @PathVariable Double money) {
+    public ResponseEntity<?> makeTransfer(@PathVariable Long number1, @PathVariable Long number2, @PathVariable Double money) throws AccountDoesNotExistException {
 
         Account firstAccount = accountService.getOneAccount(number1);
         Account secondAccount = accountService.getOneAccount(number2);
@@ -45,7 +46,7 @@ public class TransferEndpoint {
     }
 
     @GetMapping("accounts/transfers/{number}")
-    public ResponseEntity<?> getAccountTransfers(@PathVariable Long number){
+    public ResponseEntity<?> getAccountTransfers(@PathVariable Long number) throws AccountDoesNotExistException {
         return new ResponseEntity<>(transferService.getAccountTransfers(number), HttpStatus.OK);
     }
 }
