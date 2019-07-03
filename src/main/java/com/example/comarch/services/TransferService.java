@@ -10,6 +10,6 @@ public interface TransferService {
 
     List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws AccountDoesNotExistException;
     List<Transfer> getAllTransfers();
-    List<Transfer> getAccountTransfers(Long number) throws AccountDoesNotExistException;
+    List<Transfer> getAccountTransfers(String number) throws AccountDoesNotExistException;
     Transfer addTransfer(Transfer transfer);
 }

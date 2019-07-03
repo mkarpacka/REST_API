@@ -15,14 +15,14 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long number;
+    private String number;
     private Double money;
     private String currency;
     private String owner;
 
 
-    public Account(Long number, Double money, String currency, String owner) {
-        this.number = number;
+    public Account(String accountNumber, Double money, String currency, String owner) {
+        this.number = accountNumber;
         this.money = money;
         this.currency = currency;
         this.owner = owner;

@@ -15,12 +15,12 @@ public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long firstAccountNumber;
-    private Long secondAccountNumber;
+    private String firstAccountNumber;
+    private String secondAccountNumber;
     private Double money;
     private String currency;
 
-    public Transfer(Long firstAccountNumber, Long secondAccountNumber, Double money) {
+    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money) {
         this.firstAccountNumber = firstAccountNumber;
         this.secondAccountNumber = secondAccountNumber;
         this.money = money;

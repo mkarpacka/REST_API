@@ -30,7 +30,7 @@ public class TransferEndpoint {
 
 
     @PutMapping("accounts/transfer/{number1}/{number2}/{money}")
-    public ResponseEntity<?> makeTransfer(@PathVariable Long number1, @PathVariable Long number2, @PathVariable Double money) throws AccountDoesNotExistException {
+    public ResponseEntity<?> makeTransfer(@PathVariable String number1, @PathVariable String number2, @PathVariable Double money) throws AccountDoesNotExistException {
 
         Account firstAccount = accountService.getOneAccount(number1);
         Account secondAccount = accountService.getOneAccount(number2);
@@ -46,7 +46,7 @@ public class TransferEndpoint {
     }
 
     @GetMapping("accounts/transfers/{number}")
-    public ResponseEntity<?> getAccountTransfers(@PathVariable Long number) throws AccountDoesNotExistException {
+    public ResponseEntity<?> getAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
         return new ResponseEntity<>(transferService.getAccountTransfers(number), HttpStatus.OK);
     }
 }

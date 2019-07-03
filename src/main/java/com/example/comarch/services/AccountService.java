@@ -9,10 +9,10 @@ import java.util.Optional;
 public interface AccountService {
 
     List<Account> getAccounts();
-    Account getOneAccount(Long number);
+    Account getOneAccount(String number);
     Account addAccount(Account account);
-    Account updateAccount(Long number, Account account) throws AccountDoesNotExistException;
-    void deleteAccount(Long number) throws AccountDoesNotExistException;
+    Account updateAccount(String number, Account account) throws AccountDoesNotExistException;
+    void deleteAccount(String number) throws AccountDoesNotExistException;
 
 
 }

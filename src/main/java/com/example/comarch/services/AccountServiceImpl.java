@@ -24,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getOneAccount(Long number) {
+    public Account getOneAccount(String number) {
         return accountRepository.findByNumber(number);
     }
 
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccount(Long number, Account account) throws AccountDoesNotExistException {
+    public Account updateAccount(String number, Account account) throws AccountDoesNotExistException {
         Account updatedAccount = accountRepository.findByNumber(number);
 
         if(updatedAccount == null) throw new AccountDoesNotExistException("not exist");
@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount(Long number) throws AccountDoesNotExistException {
+    public void deleteAccount(String number) throws AccountDoesNotExistException {
         Account accountToDelete = accountRepository.findByNumber(number);
         List<Account> accounts = accountRepository.findAll();
 

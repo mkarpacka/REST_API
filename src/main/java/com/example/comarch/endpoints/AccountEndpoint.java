@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -30,7 +29,7 @@ public class AccountEndpoint {
     }
 
     @GetMapping("accounts/get-account/{number}")
-    public ResponseEntity<?> getOneAccount(@PathVariable Long number) {
+    public ResponseEntity<?> getOneAccount(@PathVariable String number) {
         Account account = accountService.getOneAccount(number);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
@@ -42,7 +41,7 @@ public class AccountEndpoint {
     }
 
     @PutMapping("accounts/update/{number}")
-    public ResponseEntity<Account> updateAccount(@PathVariable Long number, @RequestBody Account account) throws AccountDoesNotExistException {
+    public ResponseEntity<Account> updateAccount(@PathVariable String number, @RequestBody Account account) throws AccountDoesNotExistException {
 
         accountService.updateAccount(number, account);
 
@@ -51,7 +50,7 @@ public class AccountEndpoint {
 
 
     @DeleteMapping("accounts/delete/{number}")
-    public ResponseEntity<Account> deleteAccount(@PathVariable Long number) throws AccountDoesNotExistException {
+    public ResponseEntity<Account> deleteAccount(@PathVariable String number) throws AccountDoesNotExistException {
 
         accountService.deleteAccount(number);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -1,4 +1,4 @@
-package com.example.comarch;
+package com.example.comarch.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

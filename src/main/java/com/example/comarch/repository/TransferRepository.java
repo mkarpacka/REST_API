@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Long> {
 
-    List<Transfer> findByFirstAccountNumber(Long accountNumber);
-    List<Transfer> findBySecondAccountNumber(Long accountNumber);
+    List<Transfer> findByFirstAccountNumber(String accountNumber);
+    List<Transfer> findBySecondAccountNumber(String accountNumber);
 }
