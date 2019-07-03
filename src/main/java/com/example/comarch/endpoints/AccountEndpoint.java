@@ -1,6 +1,7 @@
 package com.example.comarch.endpoints;
 
 import com.example.comarch.entities.Account;
+import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,11 +51,10 @@ public class AccountEndpoint {
 
 
     @DeleteMapping("accounts/delete/{number}")
-    public ResponseEntity<Account> deleteAccount(@PathVariable Long number) {
+    public ResponseEntity<Account> deleteAccount(@PathVariable Long number) throws AccountDoesNotExistException {
 
-        if (accountService.deleteAccount(number)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        accountService.deleteAccount(number);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

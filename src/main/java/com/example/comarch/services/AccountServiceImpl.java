@@ -1,6 +1,7 @@
 package com.example.comarch.services;
 
 import com.example.comarch.entities.Account;
+import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccount(Long number, Account account) {
+    public Account updateAccount(Long number, Account account) throws AccountDoesNotExistException {
         Account updatedAccount = accountRepository.findByNumber(number);
+
+        if(account== null) throw new AccountDoesNotExistException("not exist");
 
         if(account.getCurrency()!=null) updatedAccount.setCurrency(account.getCurrency());
         if(account.getMoney()!=null) updatedAccount.setMoney(account.getMoney());
@@ -52,15 +55,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean deleteAccount(Long number) {
+    public void deleteAccount(Long number) throws AccountDoesNotExistException {
         Account accountToDelete = accountRepository.findByNumber(number);
         List<Account> accounts = accountRepository.findAll();
 
         if (accounts.contains(accountToDelete)) {
             accountRepository.delete(accountToDelete);
-            return true;
-        }
-        return false;
+
+        }else throw new AccountDoesNotExistException("name");
     }
 
 }

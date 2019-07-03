@@ -2,6 +2,7 @@ package com.example.comarch.services;
 
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
+import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
+    public List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws AccountDoesNotExistException {
 
+        if(firstAccount== null || secondAccount == null) throw new AccountDoesNotExistException("not exist");
         if(!firstAccount.equals(secondAccount)) {
 
             Double newMoneyAmountToFirstAccount = firstAccount.getMoney() - valueOfTransfer;
@@ -53,8 +55,10 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<Transfer> getAccountTransfers(Long number) {
+    public List<Transfer> getAccountTransfers(Long number) throws AccountDoesNotExistException {
         Account account = accountRepository.findByNumber(number);
+
+        if(account==null) throw new AccountDoesNotExistException("404");
         List<Transfer> allAccountTransfers = new ArrayList<>();
         List<Transfer> transfersFrom = transferRepository.findByFirstAccountNumber(account.getNumber());
         List<Transfer> transfersTo = transferRepository.findBySecondAccountNumber(account.getNumber());
