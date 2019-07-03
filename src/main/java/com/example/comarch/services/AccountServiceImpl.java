@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +28,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<Account> getOneAccount(Long number) {
-        Optional<Account> optionalAccount = accountRepository.findByNumber(number);
-        if (optionalAccount.isPresent()) {
-            return optionalAccount;
-        }
-        return null;
+    public Account getOneAccount(Long number) {
+        return accountRepository.findByNumber(number);
     }
 
     @Override
@@ -41,28 +39,27 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateAccount(Long number, Account account) {
-        Optional<Account> optionalAccount = accountRepository.findByNumber(number);
+        Account updatedAccount = accountRepository.findByNumber(number);
 
-        if (optionalAccount.isPresent()) {
-            optionalAccount.get().setCurrency(account.getCurrency());
-            optionalAccount.get().setMoney(account.getMoney());
-            optionalAccount.get().setCurrency(account.getCurrency());
-            optionalAccount.get().setOwner(account.getOwner());
-
-            return account;
-        }
-        return null;
+        updatedAccount.setCurrency(account.getCurrency());
+        updatedAccount.setMoney(account.getMoney());
+        updatedAccount.setOwner(account.getOwner());
+//        updatedAccount.setNumber(account.getNumber());
+        accountRepository.save(updatedAccount);
+        return updatedAccount;
     }
 
     @Override
-    public boolean deleteAccount(Long number, Account account) {
-        Optional<Account> optionalAccount = accountRepository.findByNumber(number);
+    public boolean deleteAccount(Long number) {
+        Account accountToDelete = accountRepository.findByNumber(number);
+        List<Account> accounts = accountRepository.findAll();
 
-        if (optionalAccount.isPresent()) {
-            accountRepository.delete(optionalAccount.get());
+        if (accounts.contains(accountToDelete)) {
+            accountRepository.delete(accountToDelete);
             return true;
         }
         return false;
     }
+
 }
 

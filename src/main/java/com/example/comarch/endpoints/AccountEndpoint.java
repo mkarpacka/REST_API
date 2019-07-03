@@ -1,7 +1,6 @@
 package com.example.comarch.endpoints;
 
 import com.example.comarch.entities.Account;
-import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ public class AccountEndpoint {
 
     private AccountService accountService;
 
+
     @Autowired
     public AccountEndpoint(AccountService accountService) {
         this.accountService = accountService;
@@ -30,17 +30,17 @@ public class AccountEndpoint {
 
     @GetMapping("accounts/get-account/{number}")
     public ResponseEntity<?> getOneAccount(@PathVariable Long number) {
-        Optional<Account> optionalAccount = accountService.getOneAccount(number);
-        return new ResponseEntity<>(optionalAccount, HttpStatus.OK);
+        Account account = accountService.getOneAccount(number);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
-    @PostMapping("accounts")
+    @PostMapping("accounts/add")
     public ResponseEntity<?> addAccount(@RequestBody Account account) {
         accountService.addAccount(account);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
-    @PutMapping("accounts/{number}")
+    @PutMapping("accounts/update/{number}")
     public ResponseEntity<Account> updateAccount(@PathVariable Long number, @RequestBody Account account) {
 
         accountService.updateAccount(number, account);
@@ -48,10 +48,11 @@ public class AccountEndpoint {
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
-    @DeleteMapping("accounts/{number}")
-    public ResponseEntity<Account> deleteAccount(@PathVariable Long number, @RequestBody Account account) {
 
-        if (accountService.deleteAccount(number, account)) {
+    @DeleteMapping("accounts/delete/{number}")
+    public ResponseEntity<Account> deleteAccount(@PathVariable Long number) {
+
+        if (accountService.deleteAccount(number)) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

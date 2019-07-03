@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    Optional<Account> findByNumber(Long number);
+    Account findByNumber(Long number);
 
 }
