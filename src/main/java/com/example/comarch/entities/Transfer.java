@@ -1,6 +1,7 @@
 package com.example.comarch.entities;
 
 
+import com.example.comarch.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,12 +19,13 @@ public class Transfer {
     private String firstAccountNumber;
     private String secondAccountNumber;
     private Double money;
-    private String currency;
+    private Currency currency;
 
-    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money) {
+    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency) {
         this.firstAccountNumber = firstAccountNumber;
         this.secondAccountNumber = secondAccountNumber;
         this.money = money;
+        this.currency = currency;
     }
 
 

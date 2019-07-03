@@ -1,6 +1,7 @@
 package com.example.comarch.entities;
 
 
+import com.example.comarch.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,11 +18,11 @@ public class Account {
     private Long id;
     private String number;
     private Double money;
-    private String currency;
+    private Currency currency;
     private String owner;
 
 
-    public Account(String accountNumber, Double money, String currency, String owner) {
+    public Account(String accountNumber, Double money, Currency currency, String owner) {
         this.number = accountNumber;
         this.money = money;
         this.currency = currency;

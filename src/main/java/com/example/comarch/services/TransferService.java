@@ -12,4 +12,5 @@ public interface TransferService {
     List<Transfer> getAllTransfers();
     List<Transfer> getAccountTransfers(String number) throws AccountDoesNotExistException;
     Transfer addTransfer(Transfer transfer);
+    Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer);
 }

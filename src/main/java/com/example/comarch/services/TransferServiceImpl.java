@@ -1,5 +1,6 @@
 package com.example.comarch.services;
 
+import com.example.comarch.Currency;
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
 import com.example.comarch.exception.AccountDoesNotExistException;
@@ -18,6 +19,16 @@ public class TransferServiceImpl implements TransferService {
     private AccountRepository accountRepository;
     private TransferRepository transferRepository;
 
+    private double eurToGbp = 0.898452137;
+    private double eurToPln = 4.24076919;
+    private double eurToUsd = 1.129126;
+
+    private double gbpToPln = 4.72178926;
+    private double gbpToUsd = 1.2572;
+
+    private double usdToPln = 4.71894451;
+
+
     @Autowired
     public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository) {
         this.accountRepository = accountRepository;
@@ -27,7 +38,8 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws AccountDoesNotExistException {
 
-        if (firstAccount == null || secondAccount == null) throw new AccountDoesNotExistException("account to transfer do not exist");
+        if (firstAccount == null || secondAccount == null)
+            throw new AccountDoesNotExistException("account to transfer do not exist");
         if (!firstAccount.equals(secondAccount)) {
 
             Double newMoneyAmountToFirstAccount = firstAccount.getMoney() - valueOfTransfer;
@@ -37,7 +49,7 @@ public class TransferServiceImpl implements TransferService {
             if (newMoneyAmountToFirstAccount >= 0) {
                 firstAccount.setMoney(newMoneyAmountToFirstAccount);
                 secondAccount.setMoney(newMoneyAmountToSecondAccount);
-                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer));
+//                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer));
             }
             updatedAccountsList.add(firstAccount);
             updatedAccountsList.add(secondAccount);
@@ -71,5 +83,46 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public Transfer addTransfer(Transfer transfer) {
         return transferRepository.save(transfer);
+    }
+
+    @Override
+    public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
+        Currency enumCurrency;
+        Currency firstAccountCurrency = firstAccount.getCurrency();
+        Currency secondAccountCurrency = secondAccount.getCurrency();
+
+        if (firstAccountCurrency == secondAccountCurrency) {
+            return valueOfTransfer;
+        } else {
+            Double result = fun(firstAccountCurrency, secondAccountCurrency, valueOfTransfer);
+        }
+        return 0.0;
+        //zrobic mape
+    }
+
+    Double fun(Currency currency, Currency currency2, Double valueOfTransfer) {
+        Double d = 0.0;
+        if (currency == Currency.EUR)
+            switch (currency2) {
+                case GBP:
+                    d = valueOfTransfer * eurToGbp;
+                    break;
+                case PLN:
+                    d = valueOfTransfer * eurToPln;
+                    break;
+                case USD:
+                    d = valueOfTransfer * eurToUsd;
+                    break;
+            }
+        if (currency == Currency.GBP) {
+
+        }
+        if (currency == Currency.USD) {
+
+        }
+        if (currency == Currency.PLN) {
+
+        }
+        return d;
     }
 }
