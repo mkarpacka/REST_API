@@ -1,11 +1,14 @@
 package com.example.comarch.entities;
 
 
-import com.example.comarch.Currency;
+import com.example.comarch.entities.enums.Currency;
+import com.example.comarch.entities.enums.TransferStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -20,6 +23,20 @@ public class Transfer {
     private String secondAccountNumber;
     private Double money;
     private Currency currency;
+    private TransferStatus transferStatus;
+    private LocalDateTime transferStartedDate;
+    private LocalDateTime transferRecievedDate;
+
+    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency, TransferStatus transferStatus, LocalDateTime transferStartedDate, LocalDateTime transferRecievedDate) {
+        this.firstAccountNumber = firstAccountNumber;
+        this.secondAccountNumber = secondAccountNumber;
+        this.money = money;
+        this.currency = currency;
+        this.transferStatus = transferStatus;
+        this.transferStartedDate = transferStartedDate;
+        this.transferRecievedDate = transferRecievedDate;
+    }
+
 
     public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency) {
         this.firstAccountNumber = firstAccountNumber;

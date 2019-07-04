@@ -1,7 +1,7 @@
 package com.example.comarch.entities;
 
 
-import com.example.comarch.Currency;
+import com.example.comarch.entities.enums.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

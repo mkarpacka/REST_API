@@ -1,14 +1,17 @@
 package com.example.comarch.services;
 
-import com.example.comarch.Currency;
+import com.example.comarch.entities.enums.Currency;
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
+import com.example.comarch.entities.enums.TransferStatus;
 import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,7 +71,7 @@ public class TransferServiceImpl implements TransferService {
             if (newMoneyAmountToFirstAccount >= 0) {
                 firstAccount.setMoney(newMoneyAmountToFirstAccount);
                 secondAccount.setMoney(newMoneyAmountToSecondAccount);
-                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer, secondAccount.getCurrency()));
+                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer, secondAccount.getCurrency(), TransferStatus.OPEN, LocalDateTime.now(), null));
             }
             updatedAccountsList.add(firstAccount);
             updatedAccountsList.add(secondAccount);
@@ -106,7 +109,6 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
-        Currency enumCurrency;
         Currency firstAccountCurrency = firstAccount.getCurrency();
         Currency secondAccountCurrency = secondAccount.getCurrency();
 
