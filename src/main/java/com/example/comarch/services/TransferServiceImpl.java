@@ -10,7 +10,6 @@ import com.example.comarch.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -116,10 +115,22 @@ public class TransferServiceImpl implements TransferService {
             return valueOfTransfer;
         } else {
             String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
-            System.out.println(currencyStringKey);
             valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
             return valueOfTransfer;
         }
+    }
+
+    @Override
+    public void changeTransferStatus() {
+        List <Transfer> openedTransfers = transferRepository.findByTransferStatus(TransferStatus.OPEN);
+
+        for (Transfer openedTransfer : openedTransfers) {
+            openedTransfer.setTransferStatus(TransferStatus.FINISHED);
+            openedTransfer.setTransferRecievedDate(LocalDateTime.now());
+            transferRepository.save(openedTransfer);
+            System.out.println("zmieniono statusy");
+        }
+
     }
 
 }
