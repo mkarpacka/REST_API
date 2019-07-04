@@ -34,7 +34,7 @@ public class TransferEndpoint {
 
         Account firstAccount = accountService.getOneAccount(number1);
         Account secondAccount = accountService.getOneAccount(number2);
-
+        money = transferService.currencyConverter(firstAccount, secondAccount, money);
         List<Account> updatedAccounts = transferService.makeTransfer(firstAccount, secondAccount, money);
 
         return new ResponseEntity<>(updatedAccounts, HttpStatus.OK);

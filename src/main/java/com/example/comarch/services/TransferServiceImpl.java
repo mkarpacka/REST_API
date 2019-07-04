@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -25,9 +26,27 @@ public class TransferServiceImpl implements TransferService {
 
     private double gbpToPln = 4.72178926;
     private double gbpToUsd = 1.2572;
+    private double gbpToEur = 1.11424014;
 
     private double usdToPln = 4.71894451;
+    private double usdToEur = 0.886132034;
+    private double usdToGpb = 0.795279223 ;
 
+    private HashMap<String, Double> currencies = hashmapWithCurrencies();
+
+    public HashMap<String, Double>  hashmapWithCurrencies(){
+        currencies = new HashMap<String, Double>();
+        currencies.put("EURGBP", eurToGbp);
+        currencies.put("EURPLN", eurToPln);
+        currencies.put("EURUSD", eurToUsd);
+        currencies.put("GBPPLN", gbpToPln);
+        currencies.put("GBPUSD", gbpToUsd);
+        currencies.put("GBPEUR", gbpToEur);
+        currencies.put("USDPLN", usdToPln);
+        currencies.put("USDEUR", usdToEur);
+        currencies.put("USDGBP", usdToGpb);
+        return currencies;
+    }
 
     @Autowired
     public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository) {
@@ -49,7 +68,7 @@ public class TransferServiceImpl implements TransferService {
             if (newMoneyAmountToFirstAccount >= 0) {
                 firstAccount.setMoney(newMoneyAmountToFirstAccount);
                 secondAccount.setMoney(newMoneyAmountToSecondAccount);
-//                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer));
+                addTransfer(new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer, secondAccount.getCurrency()));
             }
             updatedAccountsList.add(firstAccount);
             updatedAccountsList.add(secondAccount);
@@ -94,35 +113,11 @@ public class TransferServiceImpl implements TransferService {
         if (firstAccountCurrency == secondAccountCurrency) {
             return valueOfTransfer;
         } else {
-            Double result = fun(firstAccountCurrency, secondAccountCurrency, valueOfTransfer);
+            String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
+            System.out.println(currencyStringKey);
+            valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
+            return valueOfTransfer;
         }
-        return 0.0;
-        //zrobic mape
     }
 
-    Double fun(Currency currency, Currency currency2, Double valueOfTransfer) {
-        Double d = 0.0;
-        if (currency == Currency.EUR)
-            switch (currency2) {
-                case GBP:
-                    d = valueOfTransfer * eurToGbp;
-                    break;
-                case PLN:
-                    d = valueOfTransfer * eurToPln;
-                    break;
-                case USD:
-                    d = valueOfTransfer * eurToUsd;
-                    break;
-            }
-        if (currency == Currency.GBP) {
-
-        }
-        if (currency == Currency.USD) {
-
-        }
-        if (currency == Currency.PLN) {
-
-        }
-        return d;
-    }
 }
