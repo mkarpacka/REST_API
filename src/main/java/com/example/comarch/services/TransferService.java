@@ -14,4 +14,5 @@ public interface TransferService {
     Transfer addTransfer(Transfer transfer);
     Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer);
     void changeTransferStatus();
+    void addMoneyToAccount();
 }

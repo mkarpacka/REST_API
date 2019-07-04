@@ -16,4 +16,5 @@ public interface TransferRepository extends JpaRepository<Transfer, Long> {
     List<Transfer> findByFirstAccountNumber(String accountNumber);
     List<Transfer> findBySecondAccountNumber(String accountNumber);
     List<Transfer> findByTransferStatus(TransferStatus transferStatus);
+    Transfer findById(int id);
 }

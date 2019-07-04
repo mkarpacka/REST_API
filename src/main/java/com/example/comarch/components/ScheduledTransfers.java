@@ -17,8 +17,10 @@ public class ScheduledTransfers {
         this.transferService = transferService;
     }
 
-    @Scheduled(fixedDelay = 20000)
+    @Scheduled(fixedDelay = 30000)
     public void scheduleFixedDelayTask() {
+
         transferService.changeTransferStatus();
+
     }
 }

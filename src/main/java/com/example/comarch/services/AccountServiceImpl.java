@@ -37,11 +37,11 @@ public class AccountServiceImpl implements AccountService {
     public Account updateAccount(String number, Account account) throws AccountDoesNotExistException {
         Account updatedAccount = accountRepository.findByNumber(number);
 
-        if(updatedAccount == null) throw new AccountDoesNotExistException("not exist");
+        if (updatedAccount == null) throw new AccountDoesNotExistException("not exist");
 
-        if(account.getCurrency()!=null) updatedAccount.setCurrency(account.getCurrency());
-        if(account.getMoney()!=null) updatedAccount.setMoney(account.getMoney());
-        if(account.getOwner()!=null) updatedAccount.setOwner(account.getOwner());
+        if (account.getCurrency() != null) updatedAccount.setCurrency(account.getCurrency());
+        if (account.getMoney() != null) updatedAccount.setMoney(account.getMoney());
+        if (account.getOwner() != null) updatedAccount.setOwner(account.getOwner());
 
 //        updatedAccount.setNumber(account.getNumber());
         accountRepository.save(updatedAccount);
@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
         if (accounts.contains(accountToDelete)) {
             accountRepository.delete(accountToDelete);
 
-        }else throw new AccountDoesNotExistException("name");
+        } else throw new AccountDoesNotExistException("name");
     }
 
 }
