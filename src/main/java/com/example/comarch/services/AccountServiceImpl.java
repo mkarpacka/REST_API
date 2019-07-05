@@ -34,17 +34,34 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account findByNumber(String accountNumber) throws AccountDoesNotExistException {
+        Account updatedAccount = accountRepository.findByNumber(accountNumber);
+        if (updatedAccount != null) {
+            return updatedAccount;
+        } else {
+            throw new AccountDoesNotExistException("account does not exist");
+        }
+    }
+
+    @Override
     public Account updateAccount(String number, Account account) throws AccountDoesNotExistException {
-        Account updatedAccount = accountRepository.findByNumber(number);
+        Account updatedAccount = findByNumber(number);
+        if (updatedAccount == null) {
+            throw new AccountDoesNotExistException("account to update is null");
+        }
 
-        if (updatedAccount == null) throw new AccountDoesNotExistException("not exist");
+        if (account.getCurrency() != null) {
+            updatedAccount.setCurrency(account.getCurrency());
+        }
+        if (account.getMoney() != null) {
+            updatedAccount.setMoney(account.getMoney());
+        }
+        if (account.getOwner() != null) {
+            updatedAccount.setOwner(account.getOwner());
+        }
 
-        if (account.getCurrency() != null) updatedAccount.setCurrency(account.getCurrency());
-        if (account.getMoney() != null) updatedAccount.setMoney(account.getMoney());
-        if (account.getOwner() != null) updatedAccount.setOwner(account.getOwner());
-
-//        updatedAccount.setNumber(account.getNumber());
         accountRepository.save(updatedAccount);
+
         return updatedAccount;
     }
 
