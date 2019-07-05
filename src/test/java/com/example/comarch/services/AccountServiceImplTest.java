@@ -7,11 +7,17 @@ import com.example.comarch.repository.AccountRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+@SpringJUnitConfig
+@RunWith(SpringJUnit4ClassRunner.class)
 public class AccountServiceImplTest {
 
     private AccountService accountService;
