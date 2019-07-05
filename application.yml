@@ -1,5 +1,19 @@
 spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/account_manager
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+logging:
+  level:
+    org.springframework: INFO
+    #    org.hibernate: DEBUG
+    {main package path}: INFO
+
+datasource:
+  hibernate.dialect: org.hibernate.dialect.MySQL57Dialect
+  ddl-auto : none
+  show-sql : false
+  format-sql : true
