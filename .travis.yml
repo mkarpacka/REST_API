@@ -10,3 +10,14 @@ before_install:
 stages:
   - compile
   - test
+
+cache:
+  directories:
+    - .autoconf
+    - $HOME/.m2
+
+spring:
+  datasource:
+    url: ${jdbc:mysql://localhost:3306/accounts_database?useSSL=false&serverTimezone=UTC}
+    username: ${root}
+    password: ${root}
