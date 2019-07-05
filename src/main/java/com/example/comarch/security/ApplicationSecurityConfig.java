@@ -14,11 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.security.user.name}")
-    private String user;
-
-    @Value("${spring.security.user.password}")
-    private String password;
+//    @Value("${spring.security.user.name}")
+//    private String user;
+//
+//    @Value("${spring.security.user.password}")
+//    private String password;
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
