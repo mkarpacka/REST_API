@@ -64,5 +64,6 @@ public class AccountServiceImplTest {
         Account updatedAccount = accountService.updateAccount(accountNumber, new Account(null, money, currency, owner));
 
         Assert.assertEquals(account.getOwner(), updatedAccount.getOwner());
+
     }
 }
