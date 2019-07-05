@@ -15,9 +15,3 @@ cache:
   directories:
     - .autoconf
     - $HOME/.m2
-
-spring:
-  datasource:
-    url: ${jdbc:mysql://localhost:3306/account_manager?useSSL=false&serverTimezone=UTC}
-    username: user
-    password: password
