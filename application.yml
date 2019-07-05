@@ -1,9 +1,5 @@
 spring:
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/account_manager
-    username: root
-    password: password
-    autoconfigure:
-      exclude:
-        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
