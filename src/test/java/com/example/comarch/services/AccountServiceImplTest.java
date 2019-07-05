@@ -27,13 +27,11 @@ public class AccountServiceImplTest {
         accountNumber = "12345";
         money = 123.0;
         currency = Currency.EUR;
-        owner = "Kowalski";
+        owner = "Kowalsky";
 
         accountRepository = Mockito.mock(AccountRepository.class);
         accountService = new AccountServiceImpl(accountRepository);
         account = new Account(accountNumber, money, currency, owner);
-
-
 
     }
 
@@ -64,6 +62,5 @@ public class AccountServiceImplTest {
         Account updatedAccount = accountService.updateAccount(accountNumber, new Account(null, money, currency, owner));
 
         Assert.assertEquals(account.getOwner(), updatedAccount.getOwner());
-
     }
 }
