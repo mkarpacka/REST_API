@@ -19,5 +19,5 @@ cache:
 spring:
   datasource:
     url: ${jdbc:mysql://localhost:3306/account_manager?useSSL=false&serverTimezone=UTC}
-    username: ${root}
+    username: ${user}
     password: ${password}
