@@ -28,6 +28,10 @@ public class AccountServiceImplTest {
     private Double money;
     private String accountNumber;
 
+    @Test
+    public  void isTrue(){
+        Assert.assertEquals(true,true);
+    }
 //    @Before
 //    public void setup() {
 //        accountNumber = "12345";
