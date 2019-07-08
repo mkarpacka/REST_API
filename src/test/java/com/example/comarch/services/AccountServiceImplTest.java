@@ -53,8 +53,8 @@ public class AccountServiceImplTest {
     public void whenAccountCurrencyIsNullShouldNotChangeCurrencyInUpdatedAccount() throws AccountDoesNotExistException {
         when(accountRepository.findByNumber(accountNumber)).thenReturn(account);
         Account updatedAccount = accountService.updateAccount(accountNumber, new Account(accountNumber, money, null, owner));
-//        updatedAccount.getCurrency()
-        Assert.assertEquals(account.getCurrency(), null);
+
+        Assert.assertEquals(account.getCurrency(), updatedAccount.getCurrency());
     }
 
     @Test
