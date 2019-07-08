@@ -34,7 +34,7 @@ public class TransferServiceImpl implements TransferService {
 
     private double usdToPln = 4.71894451;
     private double usdToEur = 0.886132034;
-    private double usdToGpb = 0.795279223;
+    private double usdToGpb = 0.795279224;
 
     private HashMap<String, Double> currencies = hashmapWithCurrencies();
 
