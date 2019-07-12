@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
 public class AccountEndpoint {
@@ -31,6 +31,12 @@ public class AccountEndpoint {
     @GetMapping("accounts/get-account/{number}")
     public ResponseEntity<?> getOneAccount(@PathVariable String number) {
         Account account = accountService.getOneAccount(number);
+        return new ResponseEntity<>(account, HttpStatus.OK);
+    }
+
+    @GetMapping("accounts/get-account-byid/{id}")
+    public ResponseEntity<?> getOneAccountById(@PathVariable Long id) {
+        Account account = accountService.getOneAccountById(id);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 

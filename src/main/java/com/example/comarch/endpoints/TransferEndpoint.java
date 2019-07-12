@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
 public class TransferEndpoint {

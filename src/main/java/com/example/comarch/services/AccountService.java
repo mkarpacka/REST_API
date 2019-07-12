@@ -8,6 +8,7 @@ public interface AccountService {
 
     List<Account> getAccounts();
     Account getOneAccount(String number);
+    Account getOneAccountById(Long id);
     Account addAccount(Account account);
     Account updateAccount(String number, Account account) throws AccountDoesNotExistException;
     void deleteAccount(String number) throws AccountDoesNotExistException;

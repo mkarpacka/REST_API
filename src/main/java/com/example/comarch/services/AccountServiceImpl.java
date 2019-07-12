@@ -31,6 +31,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account getOneAccountById(Long id) {
+        return accountRepository.findById(id).get();
+    }
+
+    @Override
     public Account addAccount(Account account) {
         return accountRepository.save(account);
     }

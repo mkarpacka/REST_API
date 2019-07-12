@@ -36,6 +36,10 @@ public class TransferServiceImpl implements TransferService {
     private double usdToEur = 0.886132034;
     private double usdToGpb = 0.795279224;
 
+    private double plnToEur = 0.234189743;
+    private double plnToUsd = 0.26377;
+    private double plnToGbp = 0.210383879;
+
     private HashMap<String, Double> currencies = hashmapWithCurrencies();
 
     public HashMap<String, Double> hashmapWithCurrencies() {
@@ -49,6 +53,9 @@ public class TransferServiceImpl implements TransferService {
         currencies.put("USDPLN", usdToPln);
         currencies.put("USDEUR", usdToEur);
         currencies.put("USDGBP", usdToGpb);
+        currencies.put("PLNEUR", plnToEur);
+        currencies.put("PLNGBP", plnToGbp);
+        currencies.put("PLNUSD", plnToUsd);
         return currencies;
     }
 

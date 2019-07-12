@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findByNumber(String number);
+    Optional<Account> findById(Long id);
 
 }
