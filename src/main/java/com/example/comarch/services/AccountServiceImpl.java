@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @NoArgsConstructor
@@ -26,18 +27,33 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getOneAccount(String number) {
-        return accountRepository.findByNumber(number);
+    public Account getOneAccount(String number) throws AccountDoesNotExistException {
+//        return accountRepository.findByNumber(number);
+        if (accountRepository.findByNumber(number) != null) {
+            return accountRepository.findByNumber(number);
+        } else {
+            throw new AccountDoesNotExistException("account does not exist");
+        }
     }
 
     @Override
-    public Account getOneAccountById(Long id) {
-        return accountRepository.findById(id).get();
+    public Account getOneAccountById(Long id) throws AccountDoesNotExistException {
+        Optional<Account> foundAccount = accountRepository.findById(id);
+        if (foundAccount.isPresent()) {
+            return foundAccount.get();
+        } else {
+            throw new AccountDoesNotExistException("account not found");
+        }
     }
 
     @Override
     public Account addAccount(Account account) {
-        return accountRepository.save(account);
+        try {
+            findByNumber(account.getNumber());
+        } catch (AccountDoesNotExistException e) {
+            return accountRepository.save(account);
+        }
+        return account;
     }
 
     @Override
@@ -55,6 +71,10 @@ public class AccountServiceImpl implements AccountService {
         Account updatedAccount = findByNumber(number);
         if (updatedAccount == null) {
             throw new AccountDoesNotExistException("account to update is null");
+        }
+
+        if (account.getNumber() != null) {
+            updatedAccount.setNumber(account.getNumber());
         }
 
         if (account.getCurrency() != null) {

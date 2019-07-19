@@ -49,4 +49,15 @@ public class TransferEndpoint {
     public ResponseEntity<?> getAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
         return new ResponseEntity<>(transferService.getAccountTransfers(number), HttpStatus.OK);
     }
+
+    @GetMapping("accounts/transfers/incoming/{number}")
+    public ResponseEntity<?> getIncomingAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
+        return new ResponseEntity<>(transferService.getIncomingAccountTransfers(number), HttpStatus.OK);
+    }
+
+
+    @GetMapping("accounts/transfers/outgoing/{number}")
+    public ResponseEntity<?> getOutgoingAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
+        return new ResponseEntity<>(transferService.getOutgoingAccountTransfers(number), HttpStatus.OK);
+    }
 }

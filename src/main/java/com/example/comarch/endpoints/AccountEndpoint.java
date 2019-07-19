@@ -29,13 +29,13 @@ public class AccountEndpoint {
     }
 
     @GetMapping("accounts/get-account/{number}")
-    public ResponseEntity<?> getOneAccount(@PathVariable String number) {
+    public ResponseEntity<?> getOneAccount(@PathVariable String number) throws AccountDoesNotExistException {
         Account account = accountService.getOneAccount(number);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
     @GetMapping("accounts/get-account-byid/{id}")
-    public ResponseEntity<?> getOneAccountById(@PathVariable Long id) {
+    public ResponseEntity<?> getOneAccountById(@PathVariable Long id) throws AccountDoesNotExistException {
         Account account = accountService.getOneAccountById(id);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }

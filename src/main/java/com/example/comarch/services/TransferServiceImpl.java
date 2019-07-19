@@ -40,6 +40,9 @@ public class TransferServiceImpl implements TransferService {
     private double plnToUsd = 0.26377;
     private double plnToGbp = 0.210383879;
 
+    private Double newMoneyAmountToFirstAccount;
+    private Double newMoneyAmountToSecondAccount;
+
     private HashMap<String, Double> currencies = hashmapWithCurrencies();
 
     public HashMap<String, Double> hashmapWithCurrencies() {
@@ -64,9 +67,6 @@ public class TransferServiceImpl implements TransferService {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
     }
-
-    Double newMoneyAmountToFirstAccount;
-    Double newMoneyAmountToSecondAccount;
 
     @Override
     public List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws AccountDoesNotExistException {
@@ -108,14 +108,6 @@ public class TransferServiceImpl implements TransferService {
     }
 
 
-//    public void addMoneyToAccount() {
-//        List<Transfer> openedTransfers = transferRepository.findByTransferStatus(TransferStatus.OPEN);
-//
-//
-//        Account account = accountRepository.findByNumber(openedTransfers.get(openedTransfers.size() - 1).getSecondAccountNumber());
-//        account.setMoney(newMoneyAmountToSecondAccount);
-//    }
-
     @Override
     public List<Transfer> getAllTransfers() {
         return transferRepository.findAll();
@@ -132,6 +124,32 @@ public class TransferServiceImpl implements TransferService {
 
         allAccountTransfers.addAll(transfersFrom);
         allAccountTransfers.addAll(transfersTo);
+
+        return allAccountTransfers;
+    }
+
+    @Override
+    public List<Transfer> getIncomingAccountTransfers(String number) throws AccountDoesNotExistException {
+        Account account = accountRepository.findByNumber(number);
+
+        if (account == null) throw new AccountDoesNotExistException("404");
+        List<Transfer> allAccountTransfers = new ArrayList<>();
+        List<Transfer> transfersTo = transferRepository.findBySecondAccountNumber(account.getNumber());
+
+        allAccountTransfers.addAll(transfersTo);
+
+        return allAccountTransfers;
+    }
+
+    @Override
+    public List<Transfer> getOutgoingAccountTransfers(String number) throws AccountDoesNotExistException {
+        Account account = accountRepository.findByNumber(number);
+
+        if (account == null) throw new AccountDoesNotExistException("404");
+        List<Transfer> allAccountTransfers = new ArrayList<>();
+        List<Transfer> transfersFrom = transferRepository.findByFirstAccountNumber(account.getNumber());
+
+        allAccountTransfers.addAll(transfersFrom);
 
         return allAccountTransfers;
     }
