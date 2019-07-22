@@ -45,8 +45,8 @@ public class TransferServiceImpl implements TransferService {
 
     private HashMap<String, Double> currencies = hashmapWithCurrencies();
 
-    public HashMap<String, Double> hashmapWithCurrencies() {
-        currencies = new HashMap<String, Double>();
+    private HashMap<String, Double> hashmapWithCurrencies() {
+        currencies = new HashMap<>();
         currencies.put("EURGBP", eurToGbp);
         currencies.put("EURPLN", eurToPln);
         currencies.put("EURUSD", eurToUsd);
@@ -77,17 +77,16 @@ public class TransferServiceImpl implements TransferService {
 
             Transfer moneyTransfer;
             newMoneyAmountToFirstAccount = firstAccount.getMoney() - valueOfTransfer;
-            newMoneyAmountToSecondAccount = secondAccount.getMoney() + valueOfTransfer;
+            Double money = currencyConverter(firstAccount, secondAccount, valueOfTransfer);
+            newMoneyAmountToSecondAccount = secondAccount.getMoney() + money;
             List<Account> updatedAccountsList = new ArrayList<>();
 
-            moneyTransfer = new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), valueOfTransfer, secondAccount.getCurrency(), TransferStatus.OPEN, LocalDateTime.now(), null);
+            moneyTransfer = new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), money, secondAccount.getCurrency(), TransferStatus.OPEN, LocalDateTime.now(), null);
 
             addTransfer(moneyTransfer);
 
             firstAccount.setMoney(newMoneyAmountToFirstAccount);
-            if (newMoneyAmountToFirstAccount >= 0 && moneyTransfer.getTransferStatus() == TransferStatus.FINISHED) {
-                updateTransferWithNewMoneyOnSecondAccount(newMoneyAmountToSecondAccount, secondAccount);
-            }
+
             updatedAccountsList.add(firstAccount);
             updatedAccountsList.add(secondAccount);
             accountRepository.save(firstAccount);
@@ -98,15 +97,26 @@ public class TransferServiceImpl implements TransferService {
 
     }
 
-    public void updateTransferWithNewMoneyOnSecondAccount(Double newMoneyToUpdateOnSecondAccount, Account account) {
+    @Override
+    public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
+        Currency firstAccountCurrency = firstAccount.getCurrency();
+        Currency secondAccountCurrency = secondAccount.getCurrency();
 
-        Double money = account.getMoney();
-        account.setMoney(money + newMoneyToUpdateOnSecondAccount);
-        accountRepository.save(account);
-
-
+        if (firstAccountCurrency == secondAccountCurrency) {
+            return valueOfTransfer;
+        } else {
+            String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
+            valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
+            return valueOfTransfer;
+        }
     }
 
+    private void updateTransferWithNewMoneyOnSecondAccount(Double newMoneyToUpdateOnSecondAccount, Account account) {
+
+        Double money = account.getMoney() + newMoneyToUpdateOnSecondAccount;
+        account.setMoney(money);
+        accountRepository.save(account);
+    }
 
     @Override
     public List<Transfer> getAllTransfers() {
@@ -133,12 +143,9 @@ public class TransferServiceImpl implements TransferService {
         Account account = accountRepository.findByNumber(number);
 
         if (account == null) throw new AccountDoesNotExistException("404");
-        List<Transfer> allAccountTransfers = new ArrayList<>();
         List<Transfer> transfersTo = transferRepository.findBySecondAccountNumber(account.getNumber());
 
-        allAccountTransfers.addAll(transfersTo);
-
-        return allAccountTransfers;
+        return new ArrayList<>(transfersTo);
     }
 
     @Override
@@ -146,31 +153,14 @@ public class TransferServiceImpl implements TransferService {
         Account account = accountRepository.findByNumber(number);
 
         if (account == null) throw new AccountDoesNotExistException("404");
-        List<Transfer> allAccountTransfers = new ArrayList<>();
         List<Transfer> transfersFrom = transferRepository.findByFirstAccountNumber(account.getNumber());
 
-        allAccountTransfers.addAll(transfersFrom);
-
-        return allAccountTransfers;
+        return new ArrayList<>(transfersFrom);
     }
 
     @Override
     public Transfer addTransfer(Transfer transfer) {
         return transferRepository.save(transfer);
-    }
-
-    @Override
-    public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
-        Currency firstAccountCurrency = firstAccount.getCurrency();
-        Currency secondAccountCurrency = secondAccount.getCurrency();
-
-        if (firstAccountCurrency == secondAccountCurrency) {
-            return valueOfTransfer;
-        } else {
-            String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
-            valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
-            return valueOfTransfer;
-        }
     }
 
     @Override
@@ -180,16 +170,11 @@ public class TransferServiceImpl implements TransferService {
         for (Transfer openedTransfer : openedTransfers) {
             openedTransfer.setTransferStatus(TransferStatus.FINISHED);
             openedTransfer.setTransferRecievedDate(LocalDateTime.now());
-            String secondaccontNum = openedTransfer.getSecondAccountNumber();
-            Account account = accountRepository.findByNumber(secondaccontNum);
+            String secondAccountNumber = openedTransfer.getSecondAccountNumber();
+            Account account = accountRepository.findByNumber(secondAccountNumber);
             updateTransferWithNewMoneyOnSecondAccount(openedTransfer.getMoney(), account);
             transferRepository.save(openedTransfer);
         }
-
-    }
-
-    @Override
-    public void addMoneyToAccount() {
 
     }
 

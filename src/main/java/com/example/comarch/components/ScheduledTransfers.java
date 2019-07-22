@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledTransfers {
 
-    TransferService transferService;
+    private TransferService transferService;
 
     @Autowired
     public ScheduledTransfers(TransferService transferService) {
@@ -19,8 +19,6 @@ public class ScheduledTransfers {
 
     @Scheduled(fixedDelay = 30000)
     public void scheduleFixedDelayTask() {
-
         transferService.changeTransferStatus();
-
     }
 }

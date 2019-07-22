@@ -28,7 +28,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getOneAccount(String number) throws AccountDoesNotExistException {
-//        return accountRepository.findByNumber(number);
         if (accountRepository.findByNumber(number) != null) {
             return accountRepository.findByNumber(number);
         } else {
@@ -69,20 +68,19 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account updateAccount(String number, Account account) throws AccountDoesNotExistException {
         Account updatedAccount = findByNumber(number);
+
         if (updatedAccount == null) {
             throw new AccountDoesNotExistException("account to update is null");
-        }
-
-        if (account.getNumber() != null) {
-            updatedAccount.setNumber(account.getNumber());
         }
 
         if (account.getCurrency() != null) {
             updatedAccount.setCurrency(account.getCurrency());
         }
+
         if (account.getMoney() != null) {
             updatedAccount.setMoney(account.getMoney());
         }
+
         if (account.getOwner() != null) {
             updatedAccount.setOwner(account.getOwner());
         }

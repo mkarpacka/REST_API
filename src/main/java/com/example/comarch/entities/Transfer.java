@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -36,16 +35,4 @@ public class Transfer {
         this.transferStartedDate = transferStartedDate;
         this.transferRecievedDate = transferRecievedDate;
     }
-
-
-    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency) {
-        this.firstAccountNumber = firstAccountNumber;
-        this.secondAccountNumber = secondAccountNumber;
-        this.money = money;
-        this.currency = currency;
-    }
-
-
-
-
 }

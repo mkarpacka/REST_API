@@ -17,7 +17,6 @@ public class AccountEndpoint {
 
     private AccountService accountService;
 
-
     @Autowired
     public AccountEndpoint(AccountService accountService) {
         this.accountService = accountService;
@@ -48,16 +47,13 @@ public class AccountEndpoint {
 
     @PutMapping("accounts/update/{number}")
     public ResponseEntity<Account> updateAccount(@PathVariable String number, @RequestBody Account account) throws AccountDoesNotExistException {
-
         accountService.updateAccount(number, account);
-
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
 
     @DeleteMapping("accounts/delete/{number}")
     public ResponseEntity<Account> deleteAccount(@PathVariable String number) throws AccountDoesNotExistException {
-
         accountService.deleteAccount(number);
         return new ResponseEntity<>(HttpStatus.OK);
 

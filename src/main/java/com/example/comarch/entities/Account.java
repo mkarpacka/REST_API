@@ -18,9 +18,9 @@ public class Account {
     private Long id;
     private String number;
     private Double money;
+    @Enumerated
     private Currency currency;
     private String owner;
-
 
     public Account(String accountNumber, Double money, Currency currency, String owner) {
         this.number = accountNumber;
@@ -28,5 +28,4 @@ public class Account {
         this.currency = currency;
         this.owner = owner;
     }
-
 }

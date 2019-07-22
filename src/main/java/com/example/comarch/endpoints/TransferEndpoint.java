@@ -1,6 +1,5 @@
 package com.example.comarch.endpoints;
 
-
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
 import com.example.comarch.exception.AccountDoesNotExistException;
@@ -18,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/")
 public class TransferEndpoint {
 
-
     private AccountService accountService;
     private TransferService transferService;
 
@@ -28,13 +26,11 @@ public class TransferEndpoint {
         this.transferService = transferService;
     }
 
-
     @PutMapping("accounts/transfer/{number1}/{number2}/{money}")
     public ResponseEntity<?> makeTransfer(@PathVariable String number1, @PathVariable String number2, @PathVariable Double money) throws AccountDoesNotExistException {
-
         Account firstAccount = accountService.getOneAccount(number1);
         Account secondAccount = accountService.getOneAccount(number2);
-        money = transferService.currencyConverter(firstAccount, secondAccount, money);
+
         List<Account> updatedAccounts = transferService.makeTransfer(firstAccount, secondAccount, money);
 
         return new ResponseEntity<>(updatedAccounts, HttpStatus.OK);
@@ -54,7 +50,6 @@ public class TransferEndpoint {
     public ResponseEntity<?> getIncomingAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
         return new ResponseEntity<>(transferService.getIncomingAccountTransfers(number), HttpStatus.OK);
     }
-
 
     @GetMapping("accounts/transfers/outgoing/{number}")
     public ResponseEntity<?> getOutgoingAccountTransfers(@PathVariable String number) throws AccountDoesNotExistException {
