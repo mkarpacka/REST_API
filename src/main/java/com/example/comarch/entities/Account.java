@@ -21,11 +21,13 @@ public class Account {
     @Enumerated
     private Currency currency;
     private String owner;
+    private boolean isDeleted;
 
-    public Account(String accountNumber, Double money, Currency currency, String owner) {
+    public Account(String accountNumber, Double money, Currency currency, String owner, boolean isDeleted) {
         this.number = accountNumber;
         this.money = money;
         this.currency = currency;
         this.owner = owner;
+        this.isDeleted = isDeleted;
     }
 }

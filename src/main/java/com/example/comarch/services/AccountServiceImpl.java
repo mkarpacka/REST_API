@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> getAccounts() {
-        return accountRepository.findAll();
+        return accountRepository.findAccountByIsDeleted(false);
     }
 
     @Override
@@ -72,15 +72,12 @@ public class AccountServiceImpl implements AccountService {
         if (updatedAccount == null) {
             throw new AccountDoesNotExistException("account to update is null");
         }
-
         if (account.getCurrency() != null) {
             updatedAccount.setCurrency(account.getCurrency());
         }
-
         if (account.getMoney() != null) {
             updatedAccount.setMoney(account.getMoney());
         }
-
         if (account.getOwner() != null) {
             updatedAccount.setOwner(account.getOwner());
         }
@@ -96,9 +93,10 @@ public class AccountServiceImpl implements AccountService {
         List<Account> accounts = accountRepository.findAll();
 
         if (accounts.contains(accountToDelete)) {
-            accountRepository.delete(accountToDelete);
+            accountToDelete.setDeleted(true);
+            accountRepository.save(accountToDelete);
 
-        } else throw new AccountDoesNotExistException("name");
+        } else throw new AccountDoesNotExistException("account does not exist");
     }
 
 }

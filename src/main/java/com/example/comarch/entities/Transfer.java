@@ -24,15 +24,15 @@ public class Transfer {
     private Currency currency;
     private TransferStatus transferStatus;
     private LocalDateTime transferStartedDate;
-    private LocalDateTime transferRecievedDate;
+    private LocalDateTime transferReceivedDate;
 
-    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency, TransferStatus transferStatus, LocalDateTime transferStartedDate, LocalDateTime transferRecievedDate) {
+    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency, TransferStatus transferStatus, LocalDateTime transferStartedDate, LocalDateTime transferReceivedDate) {
         this.firstAccountNumber = firstAccountNumber;
         this.secondAccountNumber = secondAccountNumber;
         this.money = money;
         this.currency = currency;
         this.transferStatus = transferStatus;
         this.transferStartedDate = transferStartedDate;
-        this.transferRecievedDate = transferRecievedDate;
+        this.transferReceivedDate = transferReceivedDate;
     }
 }

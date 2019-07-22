@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransferService {
 
-    List<Account> makeTransfer(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws AccountDoesNotExistException;
+    List<Account> makeTransfer(String firstAccountNumber, String secondAccountNumber, Double valueOfTransfer) throws AccountDoesNotExistException;
 
     List<Transfer> getAllTransfers();
 

@@ -29,6 +29,7 @@ public class AccountServiceImplTest {
     private Currency currency;
     private Double money;
     private String accountNumber;
+    private boolean isDeleted;
 
 
     @Before
@@ -37,10 +38,11 @@ public class AccountServiceImplTest {
         money = 123.0;
         currency = Currency.EUR;
         owner = "Kowalsky";
+        isDeleted = false;
 
         accountRepository = Mockito.mock(AccountRepository.class);
         accountService = new AccountServiceImpl(accountRepository);
-        account = new Account(accountNumber, money, currency, owner);
+        account = new Account(accountNumber, money, currency, owner, isDeleted);
 
     }
 
@@ -52,7 +54,7 @@ public class AccountServiceImplTest {
     @Test
     public void whenAccountCurrencyIsNullShouldNotChangeCurrencyInUpdatedAccount() throws AccountDoesNotExistException {
         when(accountRepository.findByNumber(accountNumber)).thenReturn(account);
-        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(accountNumber, money, null, owner));
+        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(accountNumber, money, null, owner, isDeleted));
 
         Assert.assertEquals(account.getCurrency(), updatedAccount.getCurrency());
     }
@@ -60,7 +62,7 @@ public class AccountServiceImplTest {
     @Test
     public void whenAccountMoneyIsNullShouldNotChangeMoneyInUpdatedAccount() throws AccountDoesNotExistException {
         when(accountRepository.findByNumber(accountNumber)).thenReturn(account);
-        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(accountNumber, null, currency, owner));
+        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(accountNumber, null, currency, owner, isDeleted));
 
         Assert.assertEquals(account.getMoney(), updatedAccount.getMoney());
     }
@@ -68,7 +70,7 @@ public class AccountServiceImplTest {
     @Test
     public void whenAccountOwnerIsNullShouldNotChangeOwnerInUpdatedAccount() throws AccountDoesNotExistException {
         when(accountRepository.findByNumber(accountNumber)).thenReturn(account);
-        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(null, money, currency, owner));
+        Account updatedAccount = accountService.updateAccount(accountNumber, new Account(null, money, currency, owner, isDeleted));
 
         Assert.assertEquals(account.getOwner(), updatedAccount.getOwner());
     }
