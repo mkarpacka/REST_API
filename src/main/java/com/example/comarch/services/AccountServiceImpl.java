@@ -1,12 +1,15 @@
 package com.example.comarch.services;
 
 import com.example.comarch.entities.Account;
+import com.example.comarch.entities.enums.Currency;
 import com.example.comarch.exception.AccountDoesNotExistException;
+import com.example.comarch.exception.CurrencyDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,11 +49,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account addAccount(Account account) {
+    public Account addAccount(Account account) throws CurrencyDoesNotExistException {
         try {
             findByNumber(account.getNumber());
         } catch (AccountDoesNotExistException e) {
-            return accountRepository.save(account);
+            List<Currency> currencyTypes = Arrays.asList(Currency.values());
+
+            if (currencyTypes.contains(account.getCurrency())) {
+                return accountRepository.save(account);
+            } else throw new CurrencyDoesNotExistException("wrong currency value");
         }
         return account;
     }

@@ -2,6 +2,7 @@ package com.example.comarch.endpoints;
 
 import com.example.comarch.entities.Account;
 import com.example.comarch.exception.AccountDoesNotExistException;
+import com.example.comarch.exception.CurrencyDoesNotExistException;
 import com.example.comarch.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class AccountEndpoint {
     }
 
     @PostMapping("accounts/add")
-    public ResponseEntity<?> addAccount(@RequestBody Account account) {
+    public ResponseEntity<?> addAccount(@RequestBody Account account) throws CurrencyDoesNotExistException {
         accountService.addAccount(account);
         return new ResponseEntity<>(account, HttpStatus.OK);
     }

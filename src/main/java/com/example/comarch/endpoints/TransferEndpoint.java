@@ -3,7 +3,7 @@ package com.example.comarch.endpoints;
 import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
 import com.example.comarch.exception.AccountDoesNotExistException;
-import com.example.comarch.services.AccountService;
+import com.example.comarch.exception.CurrencyDoesNotExistException;
 import com.example.comarch.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,17 +17,15 @@ import java.util.List;
 @RequestMapping("/api/")
 public class TransferEndpoint {
 
-    private AccountService accountService;
     private TransferService transferService;
 
     @Autowired
-    public TransferEndpoint(AccountService accountService, TransferService transferService) {
-        this.accountService = accountService;
+    public TransferEndpoint(TransferService transferService) {
         this.transferService = transferService;
     }
 
     @PutMapping("accounts/transfer/{firstAccountNumber}/{secondAccountNumber}/{money}")
-    public ResponseEntity<?> makeTransfer(@PathVariable String firstAccountNumber, @PathVariable String secondAccountNumber, @PathVariable Double money) throws AccountDoesNotExistException {
+    public ResponseEntity<?> makeTransfer(@PathVariable String firstAccountNumber, @PathVariable String secondAccountNumber, @PathVariable Double money) throws AccountDoesNotExistException, CurrencyDoesNotExistException {
         List<Account> updatedAccounts = transferService.makeTransfer(firstAccountNumber, secondAccountNumber, money);
         return new ResponseEntity<>(updatedAccounts, HttpStatus.OK);
     }

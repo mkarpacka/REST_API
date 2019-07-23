@@ -2,6 +2,8 @@ package com.example.comarch.services;
 
 import com.example.comarch.entities.Account;
 import com.example.comarch.exception.AccountDoesNotExistException;
+import com.example.comarch.exception.CurrencyDoesNotExistException;
+
 import java.util.List;
 
 public interface AccountService {
@@ -12,7 +14,7 @@ public interface AccountService {
 
     Account getOneAccountById(Long id) throws AccountDoesNotExistException;
 
-    Account addAccount(Account account);
+    Account addAccount(Account account) throws CurrencyDoesNotExistException;
 
     Account updateAccount(String number, Account account) throws AccountDoesNotExistException;
 

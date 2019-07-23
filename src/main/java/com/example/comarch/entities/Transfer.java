@@ -18,17 +18,19 @@ public class Transfer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstAccountNumber;
-    private String secondAccountNumber;
+    @OneToOne
+    private Account firstAccount;
+    @OneToOne
+    private Account secondAccount;
     private Double money;
     private Currency currency;
     private TransferStatus transferStatus;
     private LocalDateTime transferStartedDate;
     private LocalDateTime transferReceivedDate;
 
-    public Transfer(String firstAccountNumber, String secondAccountNumber, Double money, Currency currency, TransferStatus transferStatus, LocalDateTime transferStartedDate, LocalDateTime transferReceivedDate) {
-        this.firstAccountNumber = firstAccountNumber;
-        this.secondAccountNumber = secondAccountNumber;
+    public Transfer(Account firstAccount, Account secondAccount, Double money, Currency currency, TransferStatus transferStatus, LocalDateTime transferStartedDate, LocalDateTime transferReceivedDate) {
+        this.firstAccount = firstAccount;
+        this.secondAccount = secondAccount;
         this.money = money;
         this.currency = currency;
         this.transferStatus = transferStatus;

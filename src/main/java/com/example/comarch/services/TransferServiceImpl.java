@@ -5,6 +5,7 @@ import com.example.comarch.entities.Account;
 import com.example.comarch.entities.Transfer;
 import com.example.comarch.entities.enums.TransferStatus;
 import com.example.comarch.exception.AccountDoesNotExistException;
+import com.example.comarch.exception.CurrencyDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.repository.TransferRepository;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @NoArgsConstructor
@@ -62,12 +60,12 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<Account> makeTransfer(String firstAccountNumber, String secondAccountNumber, Double valueOfTransfer) throws AccountDoesNotExistException {
+    public List<Account> makeTransfer(String firstAccountNumber, String secondAccountNumber, Double valueOfTransfer) throws AccountDoesNotExistException, CurrencyDoesNotExistException {
         Account firstAccount = accountRepository.findByNumber(firstAccountNumber);
         Account secondAccount = accountRepository.findByNumber(secondAccountNumber);
 
         if (firstAccount == null || secondAccount == null)
-            throw new AccountDoesNotExistException("account to transfer do not exist");
+            throw new AccountDoesNotExistException("account to transfer does not exist");
         if (!firstAccount.equals(secondAccount)) {
 
             Transfer moneyTransfer;
@@ -75,7 +73,7 @@ public class TransferServiceImpl implements TransferService {
             Double money = currencyConverter(firstAccount, secondAccount, valueOfTransfer);
             List<Account> updatedAccountsList = new ArrayList<>();
 
-            moneyTransfer = new Transfer(firstAccount.getNumber(), secondAccount.getNumber(), money, secondAccount.getCurrency(), TransferStatus.valueOf("OPEN"), LocalDateTime.now(), null);
+            moneyTransfer = new Transfer(firstAccount, secondAccount, money, secondAccount.getCurrency(), TransferStatus.valueOf("OPEN"), LocalDateTime.now(), null);
 
             addTransfer(moneyTransfer);
 
@@ -92,20 +90,28 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) {
+    public Double currencyConverter(Account firstAccount, Account secondAccount, Double valueOfTransfer) throws CurrencyDoesNotExistException {
         Currency firstAccountCurrency = firstAccount.getCurrency();
         Currency secondAccountCurrency = secondAccount.getCurrency();
 
-        if (firstAccountCurrency == secondAccountCurrency) {
-            return valueOfTransfer;
+        List<Currency> currencyTypes = Arrays.asList(Currency.values());
+
+        if (currencyTypes.contains(firstAccountCurrency) && currencyTypes.contains(secondAccountCurrency)) {
+
+            if (firstAccountCurrency == secondAccountCurrency) {
+                return valueOfTransfer;
+            } else {
+                String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
+                valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
+                return valueOfTransfer;
+            }
         } else {
-            String currencyStringKey = firstAccountCurrency.toString() + secondAccountCurrency.toString();
-            valueOfTransfer = valueOfTransfer * currencies.get(currencyStringKey);
-            return valueOfTransfer;
+            throw new CurrencyDoesNotExistException("currency does not exist");
         }
     }
 
-    private void updateTransferWithNewMoneyOnSecondAccount(Double newMoneyToUpdateOnSecondAccount, Account account) {
+    @Override
+    public void updateTransferWithNewMoneyOnSecondAccount(Double newMoneyToUpdateOnSecondAccount, Account account) {
 
         Double money = account.getMoney() + newMoneyToUpdateOnSecondAccount;
         account.setMoney(money);
@@ -164,7 +170,7 @@ public class TransferServiceImpl implements TransferService {
         for (Transfer openedTransfer : openedTransfers) {
             openedTransfer.setTransferStatus(TransferStatus.FINISHED);
             openedTransfer.setTransferReceivedDate(LocalDateTime.now());
-            String secondAccountNumber = openedTransfer.getSecondAccountNumber();
+            String secondAccountNumber = openedTransfer.getSecondAccount().getNumber();
             Account account = accountRepository.findByNumber(secondAccountNumber);
             updateTransferWithNewMoneyOnSecondAccount(openedTransfer.getMoney(), account);
             transferRepository.save(openedTransfer);
