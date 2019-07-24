@@ -4,6 +4,7 @@ import com.example.comarch.entities.enums.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 
 @Data
@@ -12,11 +13,11 @@ public class ExternalTransferDto {
 
     private String externalAccount;
     private String toAccount;
-    private BigDecimal amount;
+    private Double amount;
     private Currency currency;
     private String bankName;
 
-    public ExternalTransferDto(String externalAccount, String toAccount, BigDecimal amount, Currency currency, String bankName) {
+    public ExternalTransferDto(String externalAccount, String toAccount, Double amount, Currency currency, String bankName) {
         this.externalAccount = externalAccount;
         this.toAccount = toAccount;
         this.amount = amount;
