@@ -1,10 +1,10 @@
 package com.example.comarch.services;
 
-import com.example.comarch.entities.ExternalTransfer;
+import com.example.comarch.dto.ExternalTransferDto;
 import org.springframework.http.ResponseEntity;
 
 public interface ExternalTransferService {
 
-    ResponseEntity<Object> addExternalTransfer(ExternalTransfer externalTransfer);
+    ResponseEntity<Object> addExternalTransfer(ExternalTransferDto externalTransferDto);
 
 }

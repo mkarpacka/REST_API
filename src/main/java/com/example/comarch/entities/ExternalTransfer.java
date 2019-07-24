@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "external-transfers")
+@Table(name = "external_transfers")
 @NoArgsConstructor
 public class ExternalTransfer {
 
@@ -18,17 +18,19 @@ public class ExternalTransfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String externalAccount;
+    @Column(name="recieving_account")
     private String toAccount;
-    private BigDecimal amount;
+    private Double amount;
     private Currency currency;
     private String bankName;
 
-    public ExternalTransfer(String externalAccount, String toAccount, BigDecimal amount, Currency currency, String bankName) {
+    public ExternalTransfer(String externalAccount, String toAccount, Double amount, Currency currency, String bankName) {
         this.externalAccount = externalAccount;
         this.toAccount = toAccount;
         this.amount = amount;
         this.currency = currency;
         this.bankName = bankName;
     }
+
 
 }

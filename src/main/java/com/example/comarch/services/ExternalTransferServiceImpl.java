@@ -1,6 +1,6 @@
 package com.example.comarch.services;
 
-import com.example.comarch.entities.ExternalTransfer;
+import com.example.comarch.dto.ExternalTransferDto;
 import com.example.comarch.repository.ExternalTransferRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,10 @@ public class ExternalTransferServiceImpl implements ExternalTransferService{
 
 
     @Override
-    public ResponseEntity<Object> addExternalTransfer(ExternalTransfer externalTransfer) {
+    public ResponseEntity<Object> addExternalTransfer(ExternalTransferDto externalTransferDto) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Object> objectResponseEntity = restTemplate.postForEntity("https://comarch.herokuapp.com/transfer/external-transfer", externalTransfer, null);
+//        externalTransferRepository.save();
+        ResponseEntity<Object> objectResponseEntity = restTemplate.postForEntity("https://comarch.herokuapp.com/transfer/external-transfer", externalTransferDto, null);
         return objectResponseEntity;
     }
 }

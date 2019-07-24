@@ -1,8 +1,6 @@
 package com.example.comarch.endpoints;
 
-import com.example.comarch.entities.Account;
-import com.example.comarch.entities.ExternalTransfer;
-import com.example.comarch.exception.CurrencyDoesNotExistException;
+import com.example.comarch.dto.ExternalTransferDto;
 import com.example.comarch.services.ExternalTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +20,9 @@ public class ExternalTransferEndpoint {
     }
 
     @PostMapping("transfer/external-transfer")
-    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransfer externalTransfer){
-        externalTransferService.addExternalTransfer(externalTransfer);
-        return new ResponseEntity<>(externalTransfer, HttpStatus.OK);
+    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransferDto externalTransferDto){
+        externalTransferService.addExternalTransfer(externalTransferDto);
+        return new ResponseEntity<>(externalTransferDto, HttpStatus.OK);
     }
 
 }

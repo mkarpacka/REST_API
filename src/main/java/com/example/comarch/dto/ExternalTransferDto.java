@@ -1,9 +1,13 @@
-package com.example.comarch.entities.dto;
+package com.example.comarch.dto;
 
 import com.example.comarch.entities.enums.Currency;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
 public class ExternalTransferDto {
 
     private String externalAccount;
