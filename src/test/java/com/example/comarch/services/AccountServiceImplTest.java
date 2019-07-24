@@ -4,18 +4,17 @@ import com.example.comarch.entities.Account;
 import com.example.comarch.entities.enums.Currency;
 import com.example.comarch.exception.AccountDoesNotExistException;
 import com.example.comarch.repository.AccountRepository;
-import org.apache.catalina.core.ApplicationContext;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
+
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig
