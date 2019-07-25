@@ -23,6 +23,7 @@ public class TransferServiceImpl implements TransferService {
 
     private AccountRepository accountRepository;
     private TransferRepository transferRepository;
+    private JavaMailSender javaMailSender;
 
     private HashMap<String, Double> currencies = hashMapWithCurrencies();
 
@@ -56,9 +57,10 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Autowired
-    public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository) {
+    public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository, JavaMailSender javaMailSender) {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
+        this.javaMailSender = javaMailSender;
     }
 
     @Override
@@ -183,8 +185,7 @@ public class TransferServiceImpl implements TransferService {
 
     }
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+
 
     void sendEmail() {
 
