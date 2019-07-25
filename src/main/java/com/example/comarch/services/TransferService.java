@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TransferService {
 
-    List<Account> makeTransfer(String firstAccountNumber, String secondAccountNumber, Double valueOfTransfer) throws AccountDoesNotExistException, CurrencyDoesNotExistException;
+    List<Account> makeTransfer(String firstAccountNumber, String secondAccountNumber, Double valueOfTransfer, String email) throws AccountDoesNotExistException, CurrencyDoesNotExistException;
 
     List<Transfer> getAllTransfers();
 
