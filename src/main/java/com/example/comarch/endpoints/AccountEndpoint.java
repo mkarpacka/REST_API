@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(allowCredentials = "true", maxAge = 3600, origins = "*")
+@CrossOrigin(maxAge = 3600, origins = "*")
 @RestController
 @RequestMapping("/api/")
 public class AccountEndpoint {
