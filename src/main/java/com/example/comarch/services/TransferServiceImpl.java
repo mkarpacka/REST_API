@@ -10,6 +10,8 @@ import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.repository.TransferRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -83,6 +85,9 @@ public class TransferServiceImpl implements TransferService {
             updatedAccountsList.add(secondAccount);
             accountRepository.save(firstAccount);
             accountRepository.save(secondAccount);
+
+            System.out.println("Sending Email...");
+            sendEmail();
 
             return updatedAccountsList;
         } else return Collections.emptyList();
@@ -175,6 +180,21 @@ public class TransferServiceImpl implements TransferService {
             updateTransferWithNewMoneyOnSecondAccount(openedTransfer.getMoney(), account);
             transferRepository.save(openedTransfer);
         }
+
+    }
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    void sendEmail() {
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("karpackamagdalena@gmail.com");
+
+        msg.setSubject("Testing from Spring Boot");
+        msg.setText("Hello World \n Spring Boot Email");
+
+        javaMailSender.send(msg);
 
     }
 
