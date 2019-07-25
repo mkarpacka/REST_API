@@ -18,10 +18,10 @@ public class ComarchApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ComarchApplication.class, args);
 	}
-//
-//	@Bean
-//	public JavaMailSender javaMailSender() {
-//		return new JavaMailSenderImpl();
-//	}
+
+	@Bean
+	public JavaMailSender javaMailSender() {
+		return new JavaMailSenderImpl();
+	}
 
 }
