@@ -10,13 +10,9 @@ import com.example.comarch.repository.AccountRepository;
 import com.example.comarch.repository.TransferRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,6 +23,7 @@ public class TransferServiceImpl implements TransferService {
     private AccountRepository accountRepository;
     private TransferRepository transferRepository;
     private JavaMailSender javaMailSender;
+    private SendEmailService sendEmailService;
 
     private HashMap<String, Double> currencies = hashMapWithCurrencies();
 
@@ -60,10 +57,11 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Autowired
-    public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository, JavaMailSender javaMailSender) {
+    public TransferServiceImpl(AccountRepository accountRepository, TransferRepository transferRepository, JavaMailSender javaMailSender, SendEmailService sendEmailService) {
         this.accountRepository = accountRepository;
         this.transferRepository = transferRepository;
         this.javaMailSender = javaMailSender;
+        this.sendEmailService = sendEmailService;
     }
 
     @Override
@@ -93,7 +91,7 @@ public class TransferServiceImpl implements TransferService {
 
             System.out.println("Sending Email...");
             if (!email.equals("email")) {
-                sendConfirmingTransferEmail(firstAccount, secondAccount, email);
+                sendEmailService.sendConfirmingTransferEmail(firstAccount, secondAccount, email);
             }
 
             return updatedAccountsList;
@@ -188,49 +186,6 @@ public class TransferServiceImpl implements TransferService {
             transferRepository.save(openedTransfer);
         }
 
-    }
-
-
-    private void sendConfirmingTransferEmail(Account firstAccount, Account secondAccount, String email) {
-        String to = email;
-
-        String from = "magkarp997@gmail.com";
-        final String username = "magkarp997";
-        final String password = "birbmemes<3";
-
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-            Message message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(from));
-
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
-
-            message.setSubject("Transfer");
-
-            message.setText("Money transfer from " + firstAccount.getNumber() + " to " + secondAccount.getNumber() + " has been made.");
-
-            Transport.send(message);
-
-            System.out.println("Sent message successfully....");
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

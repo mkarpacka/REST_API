@@ -1,5 +1,6 @@
 package com.example.comarch.dto;
 
+import com.example.comarch.entities.Account;
 import com.example.comarch.entities.enums.Currency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ExternalTransferDto {
 
-    private String externalAccount;
-    private String toAccount;
+    private Account externalAccount;
+    private Account toAccount;
     private Double amount;
     private Currency currency;
     private String bankName;
 
-    public ExternalTransferDto(String externalAccount, String toAccount, Double amount, Currency currency, String bankName) {
+    public ExternalTransferDto(Account externalAccount, Account toAccount, Double amount, Currency currency, String bankName) {
         this.externalAccount = externalAccount;
         this.toAccount = toAccount;
         this.amount = amount;

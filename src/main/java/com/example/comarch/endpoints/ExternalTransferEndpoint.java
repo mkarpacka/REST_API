@@ -20,8 +20,8 @@ public class ExternalTransferEndpoint {
     }
 
     @PostMapping("transfer/external-transfer")
-    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransferDto externalTransferDto){
-        externalTransferService.addExternalTransfer(externalTransferDto);
+    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransferDto externalTransferDto, @RequestBody String email){
+        externalTransferService.addExternalTransfer(externalTransferDto, email);
         return new ResponseEntity<>(externalTransferDto, HttpStatus.OK);
     }
 

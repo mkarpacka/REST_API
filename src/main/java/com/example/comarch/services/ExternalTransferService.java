@@ -5,6 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface ExternalTransferService {
 
-    ResponseEntity<Object> addExternalTransfer(ExternalTransferDto externalTransferDto);
+    ResponseEntity<Object> addExternalTransfer(ExternalTransferDto externalTransferDto, String email);
 
 }
