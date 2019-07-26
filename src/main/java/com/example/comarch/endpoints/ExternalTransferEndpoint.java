@@ -19,8 +19,8 @@ public class ExternalTransferEndpoint {
         this.externalTransferService = externalTransferService;
     }
 
-    @PostMapping("transfer/external-transfer")
-    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransferDto externalTransferDto, @RequestBody String email){
+    @PostMapping("transfer/external-transfer/{email}")
+    public ResponseEntity<?> makeExternalTransfer(@RequestBody ExternalTransferDto externalTransferDto, @PathVariable String email){
         externalTransferService.addExternalTransfer(externalTransferDto, email);
         return new ResponseEntity<>(externalTransferDto, HttpStatus.OK);
     }
