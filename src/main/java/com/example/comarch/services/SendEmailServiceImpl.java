@@ -14,7 +14,7 @@ import java.util.Properties;
 public class SendEmailServiceImpl implements SendEmailService{
 
     @Override
-    public void sendConfirmingTransferEmail(Account firstAccount, Account secondAccount, String email) {
+    public void sendConfirmingTransferEmail(String firstAccountNumber, String secondAccountNumber, String email) {
         String to = email;
 
         String from = "magkarp997@gmail.com";
@@ -45,7 +45,7 @@ public class SendEmailServiceImpl implements SendEmailService{
 
             message.setSubject("Transfer");
 
-            message.setText("Money transfer from " + firstAccount.getNumber() + " to " + secondAccount.getNumber() + " has been made.");
+            message.setText("Money transfer from " + firstAccountNumber + " to " + secondAccountNumber + " has been made.");
 
             Transport.send(message);
 

@@ -33,7 +33,7 @@ public class ExternalTransferServiceImpl implements ExternalTransferService {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<Object> objectResponseEntity = restTemplate.postForEntity("https://comarch.herokuapp.com/transfer/external-transfer", externalTransferDto, null);
-        ExternalTransfer externalTransfer = new ExternalTransfer(externalTransferDto.getExternalAccount().getNumber(), externalTransferDto.getToAccount().getNumber(), externalTransferDto.getAmount(), externalTransferDto.getCurrency(), externalTransferDto.getBankName());
+        ExternalTransfer externalTransfer = new ExternalTransfer(externalTransferDto.getExternalAccount(), externalTransferDto.getToAccount(), externalTransferDto.getAmount(), externalTransferDto.getCurrency(), externalTransferDto.getBankName());
 
         if (objectResponseEntity.getStatusCode() == HttpStatus.OK) {
             if(!email.isEmpty()){
@@ -41,7 +41,7 @@ public class ExternalTransferServiceImpl implements ExternalTransferService {
 
             }
         }
-        Account account = accountRepository.findByNumber(externalTransferDto.getExternalAccount().getNumber());
+        Account account = accountRepository.findByNumber(externalTransferDto.getExternalAccount());
 
         account.setMoney(account.getMoney() - externalTransfer.getAmount());
 

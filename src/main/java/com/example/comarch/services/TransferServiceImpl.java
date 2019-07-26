@@ -91,7 +91,7 @@ public class TransferServiceImpl implements TransferService {
 
             System.out.println("Sending Email...");
             if (!email.equals("email")) {
-                sendEmailService.sendConfirmingTransferEmail(firstAccount, secondAccount, email);
+                sendEmailService.sendConfirmingTransferEmail(firstAccount.getNumber(), secondAccount.getNumber(), email);
             }
 
             return updatedAccountsList;
