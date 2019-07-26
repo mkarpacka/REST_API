@@ -192,9 +192,9 @@ public class TransferServiceImpl implements TransferService {
 
 
     private void sendConfirmingTransferEmail(Account firstAccount, Account secondAccount, String email) {
-        String to = "karpackamagdalena@gmail.com";
+        String to = email;
 
-        String from = email;
+        String from = "magkarp997@gmail.com";
         final String username = "magkarp997";
         final String password = "birbmemes<3";
 
